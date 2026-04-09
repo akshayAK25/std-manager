@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import axios from "axios"
+import url from '../../Url'
 export default function Editcard() {
     const { id } = useParams();
   let [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ let [olddata,setolddata]=useState(({}))
       
       async function ogfetch(){
     
-          let ogdata= await axios.get(`http://localhost:5000/edit?q=${id}`,formData)
+          let ogdata= await axios.get(`${url}/edit?q=${id}`,formData)
           let data
           data=ogdata.data;
           console.log(delete data.__v);

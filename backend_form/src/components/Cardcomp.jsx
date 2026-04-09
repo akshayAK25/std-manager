@@ -44,7 +44,7 @@ useEffect(() => {
 
   async function deleteitem(e){
     console.log(e.target.id);
-    let response= await axios.delete(`http://localhost:5000/delete?q=${del}`)
+    let response= await axios.delete(`${url}/delete?q=${del}`)
     console.log(response);
     getdata()
     

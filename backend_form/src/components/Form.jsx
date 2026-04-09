@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import axios from "axios"
+import url from '../../Url'
 export default function Form() {
   
   let [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ export default function Form() {
   function handleSubmit(event) {
     event.preventDefault()
     console.log(formData);
-    axios.post("http://localhost:5000/addemp",formData)
+    axios.post(`${url}/addemp`,formData)
     
   }
 
