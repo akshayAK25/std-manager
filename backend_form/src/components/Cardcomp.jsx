@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-
+import url from '../../Url'
+console.log(url);
 
 export default function Cardcomp() {
   let[stddata,setstddata]=useState([])
   async function getdata(){
-    let response= await axios.get("http q ://localhost:5000/dis")
+    let response= await axios.get(`${url}/dis`)
     console.log(response.data);
     setstddata(response.data)
   }
@@ -24,8 +25,9 @@ console.log(e.target.id);
 useEffect(() => {
     async function getdata() {
         try {
-            const response = await axios.get("http://localhost:5000/dis", {
+            const response = await axios.get(`${url}/dis`, {
                 params: {
+                    // Axios will skip these if they are undefined/null
                     filter: courses.length > 0 ? courses.join(",") : undefined,
                     gender: gendr || undefined,
                     // age: ageState || undefined

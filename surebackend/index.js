@@ -91,38 +91,59 @@ app.post("/addemp",(req,res)=>{
 // ittration 2
 
 
+// app.get("/dis", async (req, res) => {
+//     try {
+//         // Extract all possible filters from query params
+//         const { filter, gender, age } = req.query;
+//         let queryObject = {};
+
+//         // 1. Array Filter (e.g., ?filter=FSD,Data)
+//         if (filter) {
+//             queryObject.stdcourse = { $in: filter.split(",") };
+//         }
+
+//         // 2. Exact Match Filter (e.g., ?gender=male)
+//         if (gender) {
+//             queryObject.stdgender = gender;
+//         }
+
+//         // 3. Range Filter (e.g., ?age=21)
+//         if (age) {
+//             queryObject.stdage = { $gte: parseInt(age) };
+//         }
+
+//         console.log("Final Query:", queryObject);
+        
+//         // If queryObject is {}, .find({}) returns everything automatically
+//         const results = await stdmodel.find(queryObject);
+//         res.json(results);
+
+//     } catch (error) {
+//         res.status(500).json({ error: "Internal Server Error" });
+//     }
+// });
+
 app.get("/dis", async (req, res) => {
     try {
-        // Extract all possible filters from query params
-        const { filter, gender, age } = req.query;
+        const { filter, gender } = req.query;
         let queryObject = {};
 
-        // 1. Array Filter (e.g., ?filter=FSD,Data)
-        if (filter) {
+        // Safety check: Only split if filter actually exists
+        if (filter && typeof filter === 'string') {
             queryObject.stdcourse = { $in: filter.split(",") };
         }
 
-        // 2. Exact Match Filter (e.g., ?gender=male)
         if (gender) {
             queryObject.stdgender = gender;
         }
 
-        // 3. Range Filter (e.g., ?age=21)
-        if (age) {
-            queryObject.stdage = { $gte: parseInt(age) };
-        }
-
-        console.log("Final Query:", queryObject);
-        
-        // If queryObject is {}, .find({}) returns everything automatically
-        const results = await stdmodel.find(queryObject);
-        res.json(results);
-
+        const data = await stdmodel.find(queryObject);
+        res.json(data);
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
+        console.error("Backend Error:", error);
+        res.status(500).json({ message: "Server Error", error: error.message });
     }
 });
-
 
 
 // get edit data-------------
