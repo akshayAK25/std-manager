@@ -5,11 +5,13 @@ const app=express();
 app.use(express.json())
 app.use(cors())
 
-mongo.connect("mongodb://localhost:27017/stddb").then(()=>{console.log("db connected");
+// mongo.connect("mongodb://localhost:27017/stddb").then(()=>{console.log("db connected");
+mongo.connect("mongodb+srv://akshaypanaganti9395_db_user:ak25082003@cluster1.wwmdohf.mongodb.net/studentdbcrud").then(()=>{console.log("db connected");
 }).catch((e)=>{
     console.log("not connected",e);
     
 })
+
 
 
 let std_schema=new mongo.Schema({
@@ -54,32 +56,74 @@ app.post("/addemp",(req,res)=>{
     stdmodel.create(data);
 })
 
-app.get("/dis", async(req,res)=>{
-    req.query.filter
-    console.log(req.query.filter);
-    let gender=req.query.gender
-    console.log("gender",gender);
 
 
-    if(gender){
-    const fillArray = req.query.filter.split(",");
-    console.log(fillArray);
-    let filldata= await stdmodel.find({"stdcourse": {$in: fillArray},"stdgender":gender})
-    // console.log(filldata);
-    res.json(filldata)
 
-    }
-    else{
-        const fillArray = req.query.filter.split(",");
-        console.log(fillArray);
-        let filldata= await stdmodel.find({"stdcourse": {$in: fillArray}})
-        // console.log(filldata);
-        res.json(filldata)
-        let data=await stdmodel.find({})
-    }
+
+// app.get("/dis", async(req,res)=>{
+//     req.query.filter
+//     console.log(req.query.filter);
+//     let gender=req.query.gender
+//     console.log("gender",gender);
+
+
+//     if(gender){
+//     const fillArray = req.query.filter.split(",");
+//     console.log(fillArray);
+//     let filldata= await stdmodel.find({"stdcourse": {$in: fillArray},"stdgender":gender})
+//     // console.log(filldata);
+//     res.json(filldata)
+
+//     }
+//     else{
+//         const fillArray = req.query.filter.split(",");
+//         console.log(fillArray);
+//         let filldata= await stdmodel.find({"stdcourse": {$in: fillArray}})
+//         // console.log(filldata);
+//         res.json(filldata)
+//         let data=await stdmodel.find({})
+//     }
     
 
-})
+// })
+
+
+// ittration 2
+
+
+app.get("/dis", async (req, res) => {
+    try {
+        // Extract all possible filters from query params
+        const { filter, gender, age } = req.query;
+        let queryObject = {};
+
+        // 1. Array Filter (e.g., ?filter=FSD,Data)
+        if (filter) {
+            queryObject.stdcourse = { $in: filter.split(",") };
+        }
+
+        // 2. Exact Match Filter (e.g., ?gender=male)
+        if (gender) {
+            queryObject.stdgender = gender;
+        }
+
+        // 3. Range Filter (e.g., ?age=21)
+        if (age) {
+            queryObject.stdage = { $gte: parseInt(age) };
+        }
+
+        console.log("Final Query:", queryObject);
+        
+        // If queryObject is {}, .find({}) returns everything automatically
+        const results = await stdmodel.find(queryObject);
+        res.json(results);
+
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
 
 // get edit data-------------
 

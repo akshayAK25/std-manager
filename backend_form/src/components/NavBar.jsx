@@ -10,7 +10,7 @@ return (
 
 <div className="container">
 
-<Link className="navbar-brand d-flex align-items-center" to="/dis">
+<Link className="navbar-brand d-flex align-items-center" to="/">
 <i className="bi bi-mortarboard-fill me-2"></i>
 Student Manager
 </Link>

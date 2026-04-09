@@ -19,23 +19,26 @@ console.log(e.target.id);
   }
   
   let [courses,setcourses]=useState([])
+  let [gendr,setgndr]=useState("")
   let [run,setrun]=useState(true)
-  useEffect( ()=>{
-      async function getdata(){
-        let filte=["FSD","data analytics"]
-        console.log(courses);
-        let response
-        if(courses.length==0){
-           response= await axios.get(`http://localhost:5000/dis?filter=${["FSD","Data Analytics","Data Science"]}`)
+useEffect(() => {
+    async function getdata() {
+        try {
+            const response = await axios.get("http://localhost:5000/dis", {
+                params: {
+                    filter: courses.length > 0 ? courses.join(",") : undefined,
+                    gender: gendr || undefined,
+                    // age: ageState || undefined
+                }
+            });
+            setstddata(response.data);
+        } catch (err) {
+            console.error(err);
         }
-        else{
-           response= await axios.get(`http://localhost:5000/dis?filter=${courses}&gender=${gendr}`)
-        }
-    console.log(response.data);
-    setstddata(response.data)
-  }
-getdata()
-  },[run])
+    }
+    getdata();
+}, [run]); 
+
 
   async function deleteitem(e){
     console.log(e.target.id);
@@ -57,7 +60,6 @@ getdata()
       stdage:''
     })
 
-    let [gendr,setgndr]=useState("")
     
   // data science data analytics FSD
       function handlename(e) {        
@@ -69,26 +71,41 @@ getdata()
       
     }
 
-    function handlecourse(e){
+  //   function handlecourse(e){
 
-              console.log(e.target.checked);
-      if(courses.includes(e.target.value)){
-        const valueToRemove = e.target.value;
-        const index = courses.indexOf(valueToRemove);
-        if (index > -1) { // Only splice if the item is found
-  setcourses(courses.splice(index, 1)); // Removes one item at the found index
-          }
-           console.log("removed",courses);
-           e.target.value=""
-      }
-      else{
-        if(e.target.checked){
-          courses.push(e.target.value)
-          console.log("added:",courses);
-        }
-      }
+  //             console.log(e.target.checked);
+  //     if(courses.includes(e.target.value)){
+  //       const valueToRemove = e.target.value;
+  //       const index = courses.indexOf(valueToRemove);
+  //       if (index > -1) { // Only splice if the item is found
+  // setcourses(courses.splice(index, 1)); // Removes one item at the found index
+  //         }
+  //          console.log("removed",courses);
+  //          e.target.value=""
+  //     }
+  //     else{
+  //       if(e.target.checked){
+  //         courses.push(e.target.value)
+  //         console.log("added:",courses);
+  //       }
+  //     }
         
-    }
+  //   }
+
+  function handlecourse(e) {
+  const { value, checked } = e.target;
+
+  if (checked) {
+    // Add course: Create a NEW array with the new value
+    setcourses([...courses, value]);
+  } else {
+    // Remove course: Create a NEW array without that value
+    setcourses(courses.filter((course) => course !== value));
+  }
+}
+
+
+
     function runfilt (){
           if(run){
             setrun(false)

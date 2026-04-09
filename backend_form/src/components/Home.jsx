@@ -22,25 +22,25 @@ export default function Home() {
           <div className="feature-grid">
             
             <div className="feature-card">
-              <div className="icon">➕</div>
+              <div className="icon bi bi-person-plus"></div>
               <h3>Add Students</h3>
               <p>Quickly enroll new students into the system with detailed profiles.</p>
             </div>
 
             <div className="feature-card">
-              <div className="icon">📝</div>
+              <div className="icon bi bi-pen"></div>
               <h3>Edit & Update</h3>
               <p>Keep information current. Modify grades, contact info, or status instantly.</p>
             </div>
 
             <div className="feature-card">
-              <div className="icon">🗑️</div>
+              <div className="icon bi bi-trash3"></div>
               <h3>Manage & Delete</h3>
               <p>Easily remove or archive records to keep your database clean and organized.</p>
             </div>
 
             <div className="feature-card">
-              <div className="icon">🔍</div>
+              <div className="icon bi bi-search"></div>
               <h3>Search & Filter</h3>
               <p>Find exactly who you need by filtering students by name, ID, or class.</p>
             </div>
