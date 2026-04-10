@@ -6,3 +6,9 @@ export default defineConfig({
   plugins: [react()],
   BASE:process.env.VITE_BASE_PATH || "/std-manager"
 })
+
+
+
+
+
+

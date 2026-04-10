@@ -101,3 +101,23 @@ color:white;
 .modal img{
 border-radius:8px;
 }
+
+/* HTML: <div class="loader"></div> */
+.loaderwrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.loader {
+  width: 80px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid;
+  border-color: #4f46e5 #e70a0a00;
+  animation: l1 1s infinite;
+}
+@keyframes l1 {to{transform: rotate(.5turn)}}
+
+
+

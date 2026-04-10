@@ -22,6 +22,7 @@ console.log(e.target.id);
   let [courses,setcourses]=useState([])
   let [gendr,setgndr]=useState("")
   let [run,setrun]=useState(true)
+  let [loading,setloading]=useState(true)
 useEffect(() => {
     async function getdata() {
         try {
@@ -34,6 +35,7 @@ useEffect(() => {
                 }
             });
             setstddata(response.data);
+            setloading(false)
         } catch (err) {
             console.error(err);
         }
@@ -118,233 +120,263 @@ useEffect(() => {
     }
 
 
+// if(loading){
+
+//   return(
+
+//     <>
+//     <div className="loaderwrapper">
+//    <div class="loader"></div> 
+//     </div>
+//   </>
+//   )
+// }
+
+// else{
+  return (
+  <div className="container py-5">
+  
+  {/* FILTER SECTION */}
+  
+  <div className="card shadow-sm border-0 mb-5">
+  <div className="card-body">
+  
+  <h4 className="mb-4">
+  <i className="bi bi-funnel-fill me-2"></i>
+  Filter Students
+  </h4>
+  
+  <div className="row">
+  
+  {/* Gender Filter */}
+  
+  <div className="col-md-4">
+  
+  <label className="form-label fw-semibold">Gender</label>
+  
+  <div className="form-check">
+  <input className="form-check-input" type="radio" name="stdgender" value="Male" onChange={handlename}/>
+  <label className="form-check-label">Male</label>
+  </div>
+  
+  <div className="form-check">
+  <input className="form-check-input" type="radio" name="stdgender" value="Female" onChange={handlename}/>
+  <label className="form-check-label">Female</label>
+  </div>
+  
+  </div>
+  
+  {/* Course Filter */}
+  
+  <div className="col-md-4">
+  
+  <label className="form-label fw-semibold">Courses</label>
+  
+  <div className="form-check">
+  <input className="form-check-input" type="checkbox" onClick={handlecourse} value="FSD"/>
+  <label className="form-check-label">Full Stack Development</label>
+  </div>
+  
+  <div className="form-check">
+  <input className="form-check-input" type="checkbox" onClick={handlecourse} value="Data Analytics"/>
+  <label className="form-check-label">Data Analytics</label>
+  </div>
+  
+  <div className="form-check">
+  <input className="form-check-input" type="checkbox" onClick={handlecourse} value="Data Science"/>
+  <label className="form-check-label">Data Science</label>
+  </div>
+  
+  </div>
+  
+  {/* Filter Button */}
+  
+  <div className="col-md-4 d-flex align-items-end">
+  
+  <button className="btn btn-primary w-100" onClick={runfilt}>
+  <i className="bi bi-search me-2"></i>
+  Apply Filter
+  </button>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  </div>
+  
+  {/* STUDENT CARDS */}
+  
+  {loading?<div className="loaderwrapper"><div class="loader"></div></div> :<div className="row g-4">
+  
+  {
+  stddata.map((cv)=>{
+  
+  return(
+  
+  <div key={cv._id} className="col-lg-3 col-md-4 col-sm-6">
+  
+  <div className="card student-card shadow-sm border-0 h-100">
+  
+  <img
+  src={cv.stdurl}
+  className="card-img-top student-img"
+  alt="student"
+  />
+  
+  <div className="card-body">
+  
+  <h5 className="card-title fw-bold mb-2">
+  <i className="bi bi-person-circle me-2"></i>
+  {cv.stdname}
+  </h5>
+  
+  <p className="text-muted mb-1">
+  <i className="bi bi-envelope me-2"></i>
+  {cv.stdmail}
+  </p>
+  
+  <p className="mb-1">
+  <i className="bi bi-person me-2"></i>
+  Age: {cv.stdage}
+  </p>
+  
+  <p className="mb-1">
+  <i className="bi bi-gender-ambiguous me-2"></i>
+  {cv.stdgender}
+  </p>
+  
+  <p className="mb-1">
+  <i className="bi bi-mortarboard me-2"></i>
+  {cv.stdcourse}
+  </p>
+  
+  <p className="mb-2">
+  <i className="bi bi-telephone me-2"></i>
+  {cv.stdnumber}
+  </p>
+  
+  <div className="d-flex justify-content-between mt-3">
+  
+  <Link to={`/edit/${cv._id}`}>
+  <button className="btn btn-outline-primary btn-sm">
+  <i className="bi bi-pencil-square me-1"></i>
+  Edit
+  </button>
+  </Link>
+  
+  <button
+  type="button"
+  onClick={setdelid}
+  id={cv._id}
+  className="btn btn-outline-danger btn-sm"
+  data-bs-toggle="modal"
+  data-bs-target={`#modal-${cv._id}`}
+  >
+  <i className="bi bi-trash me-1"></i>
+  Delete
+  </button>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  {/* DELETE MODAL */}
+  
+  <div
+  className="modal fade"
+  id={`modal-${cv._id}`}
+  tabIndex="-1"
+  >
+  
+  <div className="modal-dialog">
+  
+  <div className="modal-content">
+  
+  <div className="modal-header">
+  
+  <h5 className="modal-title">
+  <i className="bi bi-exclamation-triangle-fill text-danger me-2"></i>
+  Confirm Delete
+  </h5>
+  
+  <button
+  type="button"
+  className="btn-close"
+  data-bs-dismiss="modal">
+  </button>
+  
+  </div>
+  
+  <div className="modal-body text-center">
+  
+  <img
+  src={cv.stdurl}
+  className="img-fluid rounded mb-3"
+  style={{height:"200px",objectFit:"cover"}}
+  />
+  
+  <h5>{cv.stdname}</h5>
+  <p className="text-muted">{cv.stdmail}</p>
+  <p>{cv.stdcourse}</p>
+  
+  </div>
+  
+  <div className="modal-footer">
+  
+  <button
+  className="btn btn-secondary"
+  data-bs-dismiss="modal">
+  Cancel
+  </button>
+  
+  <button
+  className="btn btn-danger"
+  data-bs-dismiss="modal"
+  onClick={deleteitem}>
+  Delete
+  </button>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  </div>
+  
+  )
+  
+  })
+  }
+  
+  </div>}
+  
+  </div>
+  )
+
+// }
 
 
-    return (
-<div className="container py-5">
 
-{/* FILTER SECTION */}
 
-<div className="card shadow-sm border-0 mb-5">
-<div className="card-body">
 
-<h4 className="mb-4">
-<i className="bi bi-funnel-fill me-2"></i>
-Filter Students
-</h4>
 
-<div className="row">
 
-{/* Gender Filter */}
 
-<div className="col-md-4">
 
-<label className="form-label fw-semibold">Gender</label>
 
-<div className="form-check">
-<input className="form-check-input" type="radio" name="stdgender" value="Male" onChange={handlename}/>
-<label className="form-check-label">Male</label>
-</div>
 
-<div className="form-check">
-<input className="form-check-input" type="radio" name="stdgender" value="Female" onChange={handlename}/>
-<label className="form-check-label">Female</label>
-</div>
 
-</div>
 
-{/* Course Filter */}
 
-<div className="col-md-4">
 
-<label className="form-label fw-semibold">Courses</label>
 
-<div className="form-check">
-<input className="form-check-input" type="checkbox" onClick={handlecourse} value="FSD"/>
-<label className="form-check-label">Full Stack Development</label>
-</div>
 
-<div className="form-check">
-<input className="form-check-input" type="checkbox" onClick={handlecourse} value="Data Analytics"/>
-<label className="form-check-label">Data Analytics</label>
-</div>
-
-<div className="form-check">
-<input className="form-check-input" type="checkbox" onClick={handlecourse} value="Data Science"/>
-<label className="form-check-label">Data Science</label>
-</div>
-
-</div>
-
-{/* Filter Button */}
-
-<div className="col-md-4 d-flex align-items-end">
-
-<button className="btn btn-primary w-100" onClick={runfilt}>
-<i className="bi bi-search me-2"></i>
-Apply Filter
-</button>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-{/* STUDENT CARDS */}
-
-<div className="row g-4">
-
-{
-stddata.map((cv)=>{
-
-return(
-
-<div key={cv._id} className="col-lg-3 col-md-4 col-sm-6">
-
-<div className="card student-card shadow-sm border-0 h-100">
-
-<img
-src={cv.stdurl}
-className="card-img-top student-img"
-alt="student"
-/>
-
-<div className="card-body">
-
-<h5 className="card-title fw-bold mb-2">
-<i className="bi bi-person-circle me-2"></i>
-{cv.stdname}
-</h5>
-
-<p className="text-muted mb-1">
-<i className="bi bi-envelope me-2"></i>
-{cv.stdmail}
-</p>
-
-<p className="mb-1">
-<i className="bi bi-person me-2"></i>
-Age: {cv.stdage}
-</p>
-
-<p className="mb-1">
-<i className="bi bi-gender-ambiguous me-2"></i>
-{cv.stdgender}
-</p>
-
-<p className="mb-1">
-<i className="bi bi-mortarboard me-2"></i>
-{cv.stdcourse}
-</p>
-
-<p className="mb-2">
-<i className="bi bi-telephone me-2"></i>
-{cv.stdnumber}
-</p>
-
-<div className="d-flex justify-content-between mt-3">
-
-<Link to={`/edit/${cv._id}`}>
-<button className="btn btn-outline-primary btn-sm">
-<i className="bi bi-pencil-square me-1"></i>
-Edit
-</button>
-</Link>
-
-<button
-type="button"
-onClick={setdelid}
-id={cv._id}
-className="btn btn-outline-danger btn-sm"
-data-bs-toggle="modal"
-data-bs-target={`#modal-${cv._id}`}
->
-<i className="bi bi-trash me-1"></i>
-Delete
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-{/* DELETE MODAL */}
-
-<div
-className="modal fade"
-id={`modal-${cv._id}`}
-tabIndex="-1"
->
-
-<div className="modal-dialog">
-
-<div className="modal-content">
-
-<div className="modal-header">
-
-<h5 className="modal-title">
-<i className="bi bi-exclamation-triangle-fill text-danger me-2"></i>
-Confirm Delete
-</h5>
-
-<button
-type="button"
-className="btn-close"
-data-bs-dismiss="modal">
-</button>
-
-</div>
-
-<div className="modal-body text-center">
-
-<img
-src={cv.stdurl}
-className="img-fluid rounded mb-3"
-style={{height:"200px",objectFit:"cover"}}
-/>
-
-<h5>{cv.stdname}</h5>
-<p className="text-muted">{cv.stdmail}</p>
-<p>{cv.stdcourse}</p>
-
-</div>
-
-<div className="modal-footer">
-
-<button
-className="btn btn-secondary"
-data-bs-dismiss="modal">
-Cancel
-</button>
-
-<button
-className="btn btn-danger"
-data-bs-dismiss="modal"
-onClick={deleteitem}>
-Delete
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-)
-
-})
-}
-
-</div>
-
-</div>
-)
 
     // --------------------------------------------
 
