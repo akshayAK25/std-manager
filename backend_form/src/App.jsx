@@ -6,7 +6,7 @@ import Cardcomp from './components/Cardcomp'
 import Editcard from './components/Editcard'
 import "./App.css"
 import {BrowserRouter,Routes,Route} from "react-router-dom"
-import Home from './components/home'
+import Home from './components/Home'
 export default function App() {
   
 
