@@ -19,10 +19,10 @@ let [olddata,setolddata]=useState(({}))
   useEffect(()=>{
       
       async function ogfetch(){
-    
-          let ogdata= await axios.get(`${url}/edit?q=${id}`,formData)
-          let data
-          data=ogdata.data;
+      
+      let ogdata= await axios.get(`${url}/edit?q=${id}`,formData)
+      let data
+      data=ogdata.data;
           console.log(delete data.__v);
           console.log("old",data);
           setFormData(data);
@@ -43,7 +43,7 @@ let [olddata,setolddata]=useState(({}))
     async function handleSubmit(event) {
       console.log(id);
       
-      let ogdata= await axios.patch(`http://localhost:5000/edit?q=${id}`,formData)
+      let ogdata= await axios.patch(`${url}/edit?q=${id}`,formData)
     event.preventDefault()
     console.log(formData);
     setolddata(ogdata)
