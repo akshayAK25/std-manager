@@ -52,7 +52,7 @@ let [olddata,setolddata]=useState(({}))
 
   return (
 
-<div className="container py-5">
+<div  className="container py-5">
 
 <div className="row justify-content-center">
 

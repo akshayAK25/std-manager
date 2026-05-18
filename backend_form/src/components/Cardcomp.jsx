@@ -207,7 +207,7 @@ useEffect(() => {
   
   {/* STUDENT CARDS */}
   
-  {loading?<div className="loaderwrapper"><div class="loader"></div></div> :<div className="row g-4">
+  {loading?<div className="loaderwrapper"><div className="loader"></div></div> :<div className="row g-4">
   
   {
   stddata.map((cv)=>{
