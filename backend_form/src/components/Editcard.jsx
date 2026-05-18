@@ -24,7 +24,6 @@ let [olddata,setolddata]=useState(({}))
           let data
           data=ogdata.data;
           console.log(delete data.__v);
-        //   console.log(delete data._id);
           console.log("old",data);
           setFormData(data);
           setolddata(data)
@@ -42,6 +41,8 @@ let [olddata,setolddata]=useState(({}))
     }
     
     async function handleSubmit(event) {
+      console.log(id);
+      
       let ogdata= await axios.patch(`http://localhost:5000/edit?q=${id}`,formData)
     event.preventDefault()
     console.log(formData);
@@ -108,74 +109,7 @@ Update Student
 
 </div>
 
-</div>
-
-)
-
-
-
-// ----------------------------
-  return (
-    <div>
-<h4 className="mb-0">
-<i className="bi bi-pencil-square me-2"></i>
-Edit Student
-</h4>
-
-      <form onSubmit={handleSubmit} className='container mx-auto'>
-        <label>
-          Name:<input type="text" name="stdname" onChange={handlename}  value={formData.stdname}  />
-        </label>
-           <br />
-        <label>
-          mail:<input type="text" name="stdmail" onChange={handlename} value={formData.stdmail}  />
-        </label>
-         <br />
-        <label>
-          age:<input type="text" name="stdage" onChange={handlename} value={formData.stdage}  />
-        </label>
-        <br />
-        <label>Gender:
-          <br />
-            <input type="radio" name="stdgender" onChange={handlename} id="Male" value="Male"checked={formData.stdgender === "Male"} />
-            <label htmlFor="fsd"className='me-3' >Male</label>
-            <input type="radio" name="stdgender" onChange={handlename} id="Female" value="Female"checked={formData.stdgender === "Female"} />
-            <label htmlFor="fsd">Female</label>
-            <br/>        
-        </label>
-
-          <br />
-        <label>
-          number:<input type="text" name="stdnumber" onChange={handlename} value={formData.stdnumber}  />
-        </label> 
-                 <br />
-        <label>
-          image:<input type="text" name="stdurl" onChange={handlename} value={formData.stdurl}  />
-        </label>
-           <br />
-
-{/* course select-------------------- */}
-          <label htmlFor="">Course:</label>
-          <br />
-            <input type="radio" name="stdcourse" onChange={handlename} id="FSD" value="FSD"  checked={formData.stdcourse === "FSD"}  />
-            <label htmlFor="fsd">FSD</label>
-            <br/>
-            <input type="radio" name="stdcourse" onChange={handlename} id="data analytics" value="Data Analytics"  checked={formData.stdcourse === "Data Analytics"}  />
-            <label htmlFor="fsd">Data Analytics</label>
-            <br/>        
-            <input type="radio" name="stdcourse" onChange={handlename} id="Data science" value="data science"  checked={formData.stdcourse === "Data Science"} />
-            <label htmlFor="fsd">Data science</label>
-{/* -------------------------------- */}
-              <br/>
-              <button type="submit" className='btn btn-primary'>
-        {/* <input type="submit" value="Submit" /> */}
-        submit
-              </button>
-      </form>
-
-
-
-
+{/* preview of card */}
 <div className='cards'>
 <div className='d-flex flex-wrap gap-3 justify-content-center'>
 
@@ -191,14 +125,99 @@ Edit Student
 </div>
 
 </div>
-
-
-
-
     </div>
+{/* ------------- */}
 
-    </div>
-  )
+
+</div>
+
+)
+
+
+
+// ----------------------------
+ 
+
+// return (
+//     <div>
+// <h4 className="mb-0">
+// <i className="bi bi-pencil-square me-2"></i>
+// Edit Student
+// </h4>
+
+//       <form onSubmit={handleSubmit} className='container mx-auto'>
+//         <label>
+//           Name:<input type="text" name="stdname" onChange={handlename}  value={formData.stdname}  />
+//         </label>
+//            <br />
+//         <label>
+//           mail:<input type="text" name="stdmail" onChange={handlename} value={formData.stdmail}  />
+//         </label>
+//          <br />
+//         <label>
+//           age:<input type="text" name="stdage" onChange={handlename} value={formData.stdage}  />
+//         </label>
+//         <br />
+//         <label>Gender:
+//           <br />
+//             <input type="radio" name="stdgender" onChange={handlename} id="Male" value="Male"checked={formData.stdgender === "Male"} />
+//             <label htmlFor="fsd"className='me-3' >Male</label>
+//             <input type="radio" name="stdgender" onChange={handlename} id="Female" value="Female"checked={formData.stdgender === "Female"} />
+//             <label htmlFor="fsd">Female</label>
+//             <br/>        
+//         </label>
+
+//           <br />
+//         <label>
+//           number:<input type="text" name="stdnumber" onChange={handlename} value={formData.stdnumber}  />
+//         </label> 
+//                  <br />
+//         <label>
+//           image:<input type="text" name="stdurl" onChange={handlename} value={formData.stdurl}  />
+//         </label>
+//            <br />
+
+// {/* course select-------------------- */}
+//           <label htmlFor="">Course:</label>
+//           <br />
+//             <input type="radio" name="stdcourse" onChange={handlename} id="FSD" value="FSD"  checked={formData.stdcourse === "FSD"}  />
+//             <label htmlFor="fsd">FSD</label>
+//             <br/>
+//             <input type="radio" name="stdcourse" onChange={handlename} id="data analytics" value="Data Analytics"  checked={formData.stdcourse === "Data Analytics"}  />
+//             <label htmlFor="fsd">Data Analytics</label>
+//             <br/>        
+//             <input type="radio" name="stdcourse" onChange={handlename} id="Data science" value="data science"  checked={formData.stdcourse === "Data Science"} />
+//             <label htmlFor="fsd">Data science</label>
+// {/* -------------------------------- */}
+//               <br/>
+//               <button type="submit" className='btn btn-primary'>
+//         {/* <input type="submit" value="Submit" /> */}
+//         submit
+//               </button>
+//       </form>
+
+
+
+
+// <div className='cards'>
+// <div className='d-flex flex-wrap gap-3 justify-content-center'>
+
+//     <div key={olddata.stdname} className="card rounded-4" style={{"width": "16rem"}}>
+//           <img src={olddata.stdurl} className="card-img-top" alt="..."/>
+//           <div className="card-body">
+//             <h5 className="card-title">Name:{olddata.stdname}</h5>
+//             <h5 className="card-title">Mail:{olddata.stdmail}</h5>
+//             <h5 className="card-title">Course:{olddata.stdcourse}</h5>
+//             <h5 className="card-title">phone number:{olddata.stdnumber}</h5>
+//             <h5 className="card-title">ID:{olddata._id}</h5>
+//           </div>
+// </div>
+
+// </div>
+//     </div>
+
+//     </div>
+//   )
 
 
 

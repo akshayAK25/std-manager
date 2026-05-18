@@ -9,7 +9,6 @@ app.use(cors())
 mongo.connect("mongodb+srv://akshaypanaganti9395_db_user:ak25082003@cluster1.wwmdohf.mongodb.net/studentdbcrud").then(()=>{console.log("db connected");
 }).catch((e)=>{
     console.log("not connected",e);
-    
 })
 
 
